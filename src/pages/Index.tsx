@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CloudSun, History, Anchor, Cloud } from "lucide-react";
 import weatherBg from "@/assets/weather-bg.jpg";
 import LocationSearch from "@/components/LocationSearch";
@@ -34,6 +34,25 @@ const Index = () => {
       setIsLoading(false);
     }
   };
+
+  // Auto-detect location on mount
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          handleCurrentSearch(`${latitude},${longitude}`);
+        },
+        () => {
+          // Fallback to IP-based detection
+          handleCurrentSearch("fetch:ip");
+        }
+      );
+    } else {
+      handleCurrentSearch("fetch:ip");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="relative min-h-screen overflow-hidden">

@@ -29,8 +29,8 @@ const MarineWeather = () => {
 
   return (
     <div className="animate-fade-up space-y-6">
-      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-        <div className="glass rounded-full flex items-center px-5 py-3 gap-3">
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-center">
+        <div className="glass-input rounded-2xl flex items-center px-5 py-3.5 gap-3">
           <Navigation className="w-5 h-5 text-muted-foreground shrink-0" />
           <input
             type="text"
@@ -40,7 +40,7 @@ const MarineWeather = () => {
             className="bg-transparent border-none outline-none w-full text-foreground placeholder:text-muted-foreground font-body text-sm"
           />
         </div>
-        <div className="glass rounded-full flex items-center px-5 py-3 gap-3">
+        <div className="glass-input rounded-2xl flex items-center px-5 py-3.5 gap-3">
           <Anchor className="w-5 h-5 text-muted-foreground shrink-0" />
           <input
             type="text"
@@ -53,14 +53,19 @@ const MarineWeather = () => {
         <button
           onClick={handleSearch}
           disabled={isLoading || !lat || !lon}
-          className="bg-primary text-primary-foreground px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-40"
+          className="glass-button-primary text-foreground px-6 py-3.5 rounded-2xl text-sm font-medium disabled:opacity-40"
         >
-          {isLoading ? "Loading..." : "Search"}
+          {isLoading ? (
+            <span className="flex items-center gap-2">
+              <span className="w-3 h-3 border-2 border-foreground/30 border-t-foreground rounded-full animate-spin" />
+              Loading...
+            </span>
+          ) : "Search"}
         </button>
       </div>
 
       {error && (
-        <div className="glass rounded-xl p-4 border-destructive/30">
+        <div className="glass rounded-2xl p-4 border-destructive/30">
           <p className="text-destructive text-sm">{error}</p>
         </div>
       )}
@@ -68,40 +73,43 @@ const MarineWeather = () => {
       {weather && (
         <div className="space-y-4">
           {area && (
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-sm text-center">
               Nearest area: {area.region?.[0]?.value}, {area.country?.[0]?.value} ({area.latitude}°, {area.longitude}°)
             </p>
           )}
 
-          <div className="glass-strong rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Waves className="w-5 h-5 text-primary" />
-              <h3 className="text-sm font-display font-semibold text-foreground uppercase tracking-wide">
-                Marine Conditions — {weather.date}
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Min Temp</p>
-                <p className="text-2xl font-display font-bold text-temp-cold">{weather.mintempC}°C</p>
+          <div className="glass-strong rounded-3xl p-6 relative overflow-hidden">
+            <div className="absolute inset-0 animate-shimmer pointer-events-none" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-4">
+                <Waves className="w-5 h-5 text-primary" />
+                <h3 className="text-sm font-display font-semibold text-foreground uppercase tracking-wide">
+                  Marine Conditions — {weather.date}
+                </h3>
               </div>
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Max Temp</p>
-                <p className="text-2xl font-display font-bold text-temp-warm">{weather.maxtempC}°C</p>
+
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="text-center">
+                  <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Min Temp</p>
+                  <p className="text-2xl font-display font-bold text-temp-cold">{weather.mintempC}°C</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Max Temp</p>
+                  <p className="text-2xl font-display font-bold text-temp-warm">{weather.maxtempC}°C</p>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Hourly marine data */}
           {weather.hourly && weather.hourly.length > 0 && (
-            <div className="glass rounded-2xl p-6">
+            <div className="glass rounded-3xl p-6">
               <h3 className="text-sm font-display font-semibold text-foreground mb-4 uppercase tracking-wide">
                 Hourly Marine Data
               </h3>
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {weather.hourly.map((h, i) => (
-                  <div key={i} className="glass-subtle rounded-xl p-4 min-w-[140px] flex flex-col gap-2 shrink-0">
+                  <div key={i} className="glass-button rounded-2xl p-4 min-w-[140px] flex flex-col gap-2 shrink-0 cursor-default">
                     <span className="text-xs text-muted-foreground font-medium">
                       {String(parseInt(h.time) / 100).padStart(2, '0')}:00
                     </span>

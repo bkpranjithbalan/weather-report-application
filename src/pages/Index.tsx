@@ -44,7 +44,6 @@ const Index = () => {
           handleCurrentSearch(`${latitude},${longitude}`);
         },
         () => {
-          // Fallback to IP-based detection
           handleCurrentSearch("fetch:ip");
         }
       );
@@ -70,7 +69,9 @@ const Index = () => {
         <header className="glass-subtle border-b border-border/20 px-6 py-4">
           <div className="max-w-4xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Cloud className="w-7 h-7 text-primary" />
+              <div className="glass-button-primary rounded-xl p-2">
+                <Cloud className="w-5 h-5 text-foreground" />
+              </div>
               <h1 className="font-display text-xl font-bold text-foreground text-glow">
                 WeatherGlass
               </h1>
@@ -89,10 +90,10 @@ const Index = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-medium transition-all ${
                   activeTab === tab.id
-                    ? "glass-strong text-primary border-primary/30"
-                    : "glass-subtle text-muted-foreground hover:text-foreground"
+                    ? "glass-button-primary text-foreground"
+                    : "glass-button text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {tab.icon}
@@ -108,7 +109,7 @@ const Index = () => {
                 <LocationSearch onSearch={handleCurrentSearch} isLoading={isLoading} />
               </div>
               {error && (
-                <div className="glass rounded-xl p-4 border-destructive/30 max-w-md mx-auto">
+                <div className="glass rounded-2xl p-4 border-destructive/30 max-w-md mx-auto">
                   <p className="text-destructive text-sm text-center">{error}</p>
                 </div>
               )}

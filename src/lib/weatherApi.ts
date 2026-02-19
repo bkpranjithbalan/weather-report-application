@@ -1,4 +1,4 @@
-const API_KEY = "efkjajnf24234qrasmfcq3t5w4t5";
+const API_KEY = "0b9478259ecbe96ce7f14271f7c798d4";
 const BASE_URL = "https://api.weatherstack.com";
 
 export interface WeatherLocation {
